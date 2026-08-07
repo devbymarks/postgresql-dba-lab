@@ -1,330 +1,470 @@
 PostgreSQL DBA Lab
-📌 Sobre o projeto
-Este projeto é um laboratório prático de administração de banco de dados PostgreSQL em Linux.
-Ele foi criado para demonstrar, de forma simples e objetiva, algumas atividades que fazem parte da rotina de profissionais de Infraestrutura, Suporte, Banco de Dados e DBA.
-Mesmo para quem não possui conhecimento técnico em banco de dados, a ideia principal é fácil de entender:
-> \*\*O projeto demonstra como criar informações em um banco de dados, verificar quem está conectado, gerar uma cópia de segurança e restaurar os dados em caso de necessidade.\*\*
-Em outras palavras, o objetivo é provar na prática que os dados podem ser armazenados, monitorados, protegidos e recuperados.
----
-🎯 Objetivo
-O principal objetivo deste laboratório é demonstrar conhecimentos práticos em:
-Administração básica de PostgreSQL;
-Linux;
-SQL;
-Monitoramento de conexões;
-Criação de banco de dados;
-Criação de tabelas;
-Inserção e consulta de informações;
-Backup de banco de dados;
-Restauração de banco de dados;
-Validação da integridade dos dados;
-Documentação técnica.
----
-💡 Explicando de forma simples
-Imagine que uma empresa possui um sistema com informações importantes de clientes, funcionários, produtos ou vendas.
-Essas informações ficam armazenadas em um banco de dados.
-Neste laboratório foi simulada uma pequena empresa com uma tabela de funcionários.
-Foram cadastrados registros como:
-Nome	Cargo	Salário
-João Silva	DBA Jr	R$ 3.500,00
-Maria Souza	Analista Banco	R$ 4.500,00
-Carlos Lima	Dev Backend	R$ 5.000,00
-Depois disso, foi realizada uma sequência semelhante ao que pode acontecer em um ambiente corporativo:
-```text
-Criar o banco
-      ↓
-Criar a tabela
-      ↓
-Inserir informações
-      ↓
-Consultar os dados
-      ↓
-Monitorar o PostgreSQL
-      ↓
-Gerar um backup
-      ↓
-Restaurar o backup
-      ↓
-Validar se os dados continuam corretos
-```
-O resultado foi uma restauração bem-sucedida, preservando os registros existentes no banco original.
----
-🗄️ O que é PostgreSQL?
-O PostgreSQL é um sistema de gerenciamento de banco de dados.
-Ele é responsável por armazenar e organizar informações utilizadas por aplicações, sistemas internos, sites e diversos outros serviços.
-Um administrador de banco de dados precisa garantir, entre outras coisas, que:
-os dados estejam disponíveis;
-os acessos possam ser acompanhados;
-existam cópias de segurança;
-os dados possam ser recuperados em caso de falha.
-Este laboratório demonstra exatamente alguns desses conceitos.
----
-🔎 Etapas realizadas
-1. Validação do ambiente
-Primeiramente foi validada a instalação do PostgreSQL no servidor Linux.
-```bash
-postgres --version
-```
-Também foi acessado o usuário administrativo do PostgreSQL.
-```bash
-su - postgres
-```
----
-2. Acesso ao PostgreSQL
-O acesso ao console do banco foi realizado utilizando:
-```bash
+
+Sobre o projeto
+
+O PostgreSQL DBA Lab é um projeto criado para demonstrar, de forma prática, algumas atividades básicas de administração de banco de dados PostgreSQL em servidores Linux.
+
+A ideia do projeto é mostrar como um banco de dados pode ser criado, monitorado, protegido através de backup e recuperado através de uma restauração.
+
+O laboratório foi executado na prática e documentado com evidências das principais etapas realizadas.
+
+O projeto foi desenvolvido e documentado por Matheus Barcelli.
+
+O que esse projeto faz?
+
+De forma simples, o projeto demonstra algumas tarefas importantes relacionadas à administração de banco de dados:
+
+Acessa e valida o ambiente PostgreSQL.
+
+Cria um banco de dados para testes.
+
+Cria uma tabela e adiciona informações fictícias.
+
+Consulta os dados cadastrados.
+
+Monitora as conexões do banco.
+
+Gera uma cópia de segurança.
+
+Restaura o banco através do backup.
+
+Valida se os dados foram recuperados corretamente.
+
+O objetivo é mostrar um processo completo, desde a criação das informações até a recuperação dos dados.
+
+Por que esse projeto é importante?
+
+Empresas armazenam informações importantes em bancos de dados.
+
+Essas informações podem incluir:
+
+dados de clientes;
+
+funcionários;
+
+produtos;
+
+vendas;
+
+sistemas internos;
+
+informações operacionais.
+
+Caso aconteça alguma falha no servidor, perda de arquivos ou corrupção de dados, é importante que exista uma cópia de segurança.
+
+Porém, apenas criar um backup não é suficiente.
+
+Também é importante testar se esse backup realmente consegue recuperar as informações.
+
+Este projeto demonstra justamente esse processo.
+
+Exemplo simples
+
+Imagine uma empresa que possui informações de funcionários armazenadas em um banco de dados.
+
+Neste laboratório foi criada uma tabela com dados fictícios como:
+
+Nome
+
+Cargo
+
+Salário
+
+João Silva
+
+DBA Jr
+
+R$ 3.500,00
+
+Maria Souza
+
+Analista de Banco
+
+R$ 4.500,00
+
+Carlos Lima
+
+Desenvolvedor Backend
+
+R$ 5.000,00
+
+Depois que essas informações foram cadastradas, o ambiente passou pelo seguinte processo:
+
+Banco de Dados
+      |
+      v
+Cadastro de Informações
+      |
+      v
+Consulta e Validação
+      |
+      v
+Monitoramento
+      |
+      v
+Geração do Backup
+      |
+      v
+Restauração
+      |
+      v
+Validação dos Dados
+
+Ao final, os registros foram recuperados corretamente através do backup.
+
+Tecnologias utilizadas
+
+Linux
+
+O laboratório foi realizado em ambiente Linux, sistema operacional muito utilizado em servidores e infraestrutura corporativa.
+
+PostgreSQL
+
+O PostgreSQL é o banco de dados utilizado neste laboratório.
+
+Ele é responsável por armazenar e organizar as informações utilizadas durante os testes.
+
+SQL
+
+SQL é a linguagem utilizada para trabalhar com os dados dentro do banco.
+
+Neste projeto ela foi utilizada para:
+
+criar o banco;
+
+criar tabelas;
+
+inserir informações;
+
+consultar registros;
+
+validar os dados.
+
 psql
-```
-Depois, foi validado qual usuário estava conectado.
-```sql
-SELECT current\_user;
-```
-Resultado:
-```text
-postgres
-```
-Isso confirma que os comandos administrativos estavam sendo executados com o usuário correto.
----
-3. Monitoramento das conexões
-Também foi utilizado o recurso interno do PostgreSQL chamado:
-```sql
-pg\_stat\_activity
-```
-Ele permite visualizar informações sobre as conexões existentes no banco.
-Em um ambiente empresarial isso pode ajudar a identificar:
+
+O psql é a ferramenta de terminal do PostgreSQL.
+
+Ela permite acessar e administrar o banco de dados diretamente pelo servidor Linux.
+
+pg_dump
+
+O pg_dump é uma ferramenta do próprio PostgreSQL utilizada para gerar cópias de segurança dos bancos.
+
+Neste projeto, ele foi utilizado durante o processo de backup.
+
+Bash
+
+O Bash é utilizado para executar comandos e scripts em ambientes Linux.
+
+Git e GitHub
+
+Utilizados para organizar, versionar, documentar e publicar o projeto como parte do portfólio profissional.
+
+Monitoramento
+
+O projeto também demonstra uma atividade importante na administração de banco de dados: o monitoramento de conexões.
+
+Foi utilizada uma visão interna do PostgreSQL chamada:
+
+pg_stat_activity
+
+De forma simples, ela permite verificar informações sobre quem está utilizando o banco naquele momento.
+
+Entre as informações que podem ser analisadas estão:
+
 usuários conectados;
+
 aplicações conectadas;
+
+conexões ativas;
+
 consultas em execução;
-conexões paradas;
-tempo de execução de determinadas operações.
----
-🏢 Criação do banco de dados
-Foi criado um banco chamado:
-```text
-empresa
-```
-Com o comando:
-```sql
-CREATE DATABASE empresa;
-```
-Depois foi criada a tabela:
-```text
-funcionarios
-```
-Estrutura utilizada:
-```sql
-CREATE TABLE funcionarios (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100),
-    cargo VARCHAR(50),
-    salario NUMERIC(10,2)
-);
-```
----
-👨‍💼 Inserção de dados
-Foram cadastrados funcionários fictícios para simular um pequeno ambiente empresarial.
-```sql
-INSERT INTO funcionarios (nome, cargo, salario)
-VALUES
-('Joao Silva','DBA Jr',3500),
-('Maria Souza','Analista Banco',4500),
-('Carlos Lima','Dev Backend',5000);
-```
-Depois os dados foram consultados:
-```sql
-SELECT \* FROM funcionarios;
-```
-Isso permitiu confirmar que as informações haviam sido armazenadas corretamente.
----
-💾 Backup
-Uma das partes mais importantes do laboratório foi a criação do backup.
-O backup funciona como uma cópia de segurança do banco de dados.
-Foi utilizado o utilitário oficial do PostgreSQL:
-```bash
-pg\_dump
-```
-Exemplo:
-```bash
-pg\_dump empresa > /backup/empresa\_backup.sql
-```
-Depois foi verificado se o arquivo havia sido realmente criado.
-```bash
-ls -lh /backup
-```
-Essa etapa é importante porque apenas executar um comando de backup não é suficiente: também é necessário validar se o arquivo foi produzido.
----
-♻️ Restauração
-Ter um backup é importante, mas um backup só possui valor real quando é possível utilizá-lo para recuperar os dados.
-Por isso, o laboratório também incluiu uma restauração.
-Foi criado outro banco para receber os dados do backup.
-Depois da restauração, foram realizadas duas validações.
-Validação da tabela
-```text
-\\d
-```
-Foi possível confirmar a existência da tabela:
-```text
-funcionarios
-```
-Validação dos registros
-```sql
-SELECT \* FROM funcionarios;
-```
-Os três registros apareceram novamente após a restauração.
-Isso comprovou que o processo:
-```text
-BACKUP → RESTAURAÇÃO → VALIDAÇÃO
-```
-foi concluído com sucesso.
----
-📸 Evidências práticas
-O projeto inclui capturas de tela das atividades realizadas no servidor.
-Essas evidências demonstram que os procedimentos não foram apenas descritos teoricamente: eles foram executados e validados na prática.
-Entre as evidências estão:
-versão do PostgreSQL;
-acesso ao usuário administrativo;
-acesso ao `psql`;
-validação do usuário conectado;
-consulta de conexões;
+
+estado das conexões.
+
+Esse tipo de monitoramento pode ajudar na identificação de problemas e no troubleshooting do ambiente.
+
+Backup
+
+Uma das principais atividades realizadas no laboratório foi a criação de uma cópia de segurança do banco de dados.
+
+O processo funciona aproximadamente assim:
+
+Banco de Dados
+      |
+      v
+pg_dump
+      |
+      v
+Arquivo de Backup
+
+Após gerar o backup, o arquivo foi validado para confirmar que havia sido criado corretamente.
+
+Restauração
+
+Gerar um backup é apenas uma parte do processo.
+
+Também é importante testar se ele pode ser utilizado para recuperar os dados.
+
+Por isso, neste laboratório foi criado outro banco e o backup foi restaurado nele.
+
+O fluxo foi:
+
+Arquivo de Backup
+      |
+      v
+Restauração
+      |
+      v
+Novo Banco de Dados
+      |
+      v
+Validação das Tabelas
+      |
+      v
+Validação dos Registros
+
+Após a restauração, os registros cadastrados originalmente foram consultados novamente.
+
+Os dados estavam disponíveis, confirmando que o backup poderia ser utilizado para recuperação.
+
+Resultado do laboratório
+
+Ao final do projeto foi possível validar todo o processo:
+
+✅ PostgreSQL acessado
+✅ Banco de dados criado
+✅ Tabela criada
+✅ Dados cadastrados
+✅ Dados consultados
+✅ Conexões monitoradas
+✅ Backup criado
+✅ Arquivo de backup validado
+✅ Banco restaurado
+✅ Dados recuperados
+✅ Restauração validada
+
+Evidências
+
+Todas as principais etapas do laboratório foram registradas através de capturas de tela.
+
+As evidências demonstram que as atividades foram executadas na prática.
+
+Entre elas estão:
+
+validação da versão do PostgreSQL;
+
+acesso ao servidor;
+
+acesso ao PostgreSQL;
+
+identificação do usuário conectado;
+
+monitoramento das conexões;
+
 criação do banco;
+
 criação da tabela;
-inserção dos dados;
-consulta dos registros;
+
+inserção dos registros;
+
+consulta das informações;
+
 criação do backup;
+
 restauração;
-confirmação dos dados restaurados.
-As imagens estão disponíveis em:
-```text
+
+validação dos registros recuperados.
+
+As imagens estão organizadas no diretório:
+
 docs/evidencias/
-```
----
-🧰 Tecnologias utilizadas
-Tecnologia	Utilização
-Linux	Sistema operacional do laboratório
-PostgreSQL	Banco de dados
-SQL	Criação e manipulação dos dados
-psql	Administração do PostgreSQL pelo terminal
-pg_dump	Geração de backup
-Bash	Automação e comandos no servidor
-PuTTY	Acesso remoto ao servidor
-Git	Controle de versão
-GitHub	Documentação e apresentação do projeto
----
-📂 Estrutura do projeto
-```text
+
+Estrutura do projeto
+
 postgresql-dba-lab/
 │
 ├── README.md
+├── LICENSE
+├── SECURITY.md
+├── CHANGELOG.md
+│
 ├── docs/
 │   └── evidencias/
 │
 ├── sql/
-│   ├── create\_database.sql
-│   ├── create\_table.sql
-│   ├── insert\_data.sql
+│   ├── create_database.sql
+│   ├── create_table.sql
+│   ├── insert_data.sql
 │   └── monitoring.sql
 │
-├── scripts/
-│   ├── backup.sh
-│   └── restore.sh
-│
-├── LICENSE
-├── SECURITY.md
-└── CHANGELOG.md
-```
-A organização foi pensada para separar:
-documentação;
-evidências;
-comandos SQL;
-scripts de administração.
----
-🧠 Competências demonstradas
-Este projeto demonstra conhecimentos relacionados a:
-Banco de Dados
-PostgreSQL;
-SQL;
-criação de bancos;
-criação de tabelas;
-consultas;
-administração básica;
-monitoramento.
-Backup e recuperação
-`pg\_dump`;
-geração de backup;
-armazenamento do arquivo;
-restauração;
-validação pós-restore.
-Linux
-terminal;
-usuários;
-diretórios;
-permissões;
-execução de comandos administrativos.
-Documentação
-Além da execução técnica, todo o procedimento foi documentado de maneira que outra pessoa possa entender o objetivo e reproduzir o laboratório.
----
-🛡️ Segurança
-Este repositório foi preparado para publicação pública.
-Informações sensíveis de ambientes reais, como:
-senhas;
-credenciais;
+└── scripts/
+    ├── backup.sh
+    └── restore.sh
+
+A organização por diretórios facilita a leitura do projeto e permite localizar rapidamente os scripts, comandos SQL e evidências.
+
+Segurança
+
+Por se tratar de um projeto público de portfólio, nenhuma informação sensível de ambientes reais deve ser publicada.
+
+O repositório não utiliza:
+
+senhas reais;
+
+credenciais de produção;
+
 dados reais de clientes;
-informações confidenciais;
-não devem ser adicionadas ao projeto.
-Os dados utilizados no laboratório são exemplos destinados exclusivamente para estudo.
----
-⚠️ Observação sobre a versão
-As evidências originais deste laboratório foram produzidas em um ambiente com PostgreSQL 9.6.11.
-Essa versão é antiga e não deve ser utilizada como referência para uma nova implantação em produção.
-Ela permanece nas evidências porque representa o ambiente em que o laboratório foi executado.
-Os conceitos demonstrados — SQL, monitoramento, backup, restore e validação — continuam relevantes, e uma evolução planejada do projeto é reproduzir o laboratório utilizando uma versão atual e suportada do PostgreSQL.
----
-🚀 Possíveis evoluções
-O laboratório pode ser expandido futuramente com:
+
+chaves privadas;
+
+tokens;
+
+informações confidenciais de empresas.
+
+Os nomes e informações utilizados no laboratório são fictícios.
+
+Observação sobre a versão utilizada
+
+O laboratório original foi executado utilizando:
+
+PostgreSQL 9.6.11
+
+Essa é uma versão antiga do PostgreSQL e atualmente não é recomendada para novas implementações em produção.
+
+Ela foi mantida nas evidências porque representa o ambiente em que o laboratório original foi realizado.
+
+Uma evolução futura deste projeto será reproduzir o cenário utilizando uma versão atual e suportada do PostgreSQL.
+
+O que este projeto demonstra
+
+Este projeto foi criado para demonstrar conhecimentos práticos relacionados à administração de banco de dados e infraestrutura.
+
+Entre as competências aplicadas estão:
+
+Administração Linux
+
+PostgreSQL
+
+SQL
+
+Banco de Dados
+
+Monitoramento
+
+Backup
+
+Restauração
+
+Recuperação de dados
+
+Bash
+
+Troubleshooting
+
+Documentação técnica
+
+Git
+
+GitHub
+
+Organização de projetos
+
+Cenário de uso
+
+Um exemplo de aplicação desse conhecimento em uma empresa seria:
+
+Sistema da Empresa
+        |
+        v
+Banco PostgreSQL
+        |
+        | armazena informações
+        v
+Dados da Empresa
+        |
+        | backup
+        v
+Arquivo de Segurança
+        |
+        | restauração em caso de necessidade
+        v
+Recuperação dos Dados
+
+Caso aconteça algum problema com o banco original, o backup pode fazer parte do processo de recuperação das informações.
+
+Motivação
+
+Este projeto foi desenvolvido a partir de atividades práticas realizadas em um ambiente PostgreSQL.
+
+A documentação dessas atividades foi posteriormente organizada e transformada em um projeto de portfólio.
+
+O objetivo foi reunir em um único repositório conceitos relacionados a:
+
+administração;
+
+monitoramento;
+
+backup;
+
+restauração;
+
+validação;
+
+segurança;
+
+documentação.
+
+Objetivo profissional
+
+O objetivo deste repositório é demonstrar experiência prática com atividades comuns nas áreas de infraestrutura e administração de banco de dados.
+
+O projeto procura mostrar não apenas a execução de comandos, mas também a capacidade de:
+
+entender uma atividade técnica;
+
+executar o procedimento;
+
+validar o resultado;
+
+registrar evidências;
+
+organizar a documentação;
+
+pensar na recuperação dos dados.
+
+Próximas melhorias
+
+O projeto poderá evoluir futuramente com:
+
 PostgreSQL em versão atual;
+
 Docker;
+
 Docker Compose;
-backup automático;
+
+backup automatizado;
+
 agendamento com Cron;
-logs de backup;
+
+logs automáticos;
+
 política de retenção;
+
 monitoramento com Prometheus;
-dashboards no Grafana;
+
+dashboards com Grafana;
+
 GitHub Actions;
-testes automáticos;
+
 replicação PostgreSQL;
+
 recuperação Point-in-Time Recovery (PITR).
----
-👔 Por que este projeto está no meu portfólio?
-Mais do que demonstrar comandos, este projeto busca demonstrar minha forma de trabalhar:
-```text
-Entender o ambiente
-        ↓
-Executar
-        ↓
-Validar
-        ↓
-Documentar
-        ↓
-Proteger os dados
-        ↓
-Testar a recuperação
-```
-Acredito que uma atividade de infraestrutura ou banco de dados não termina quando um comando retorna sucesso.
-É necessário validar o resultado, documentar o procedimento e garantir que exista uma forma segura de recuperação.
----
-📚 Aprendizados
-Durante este laboratório foram trabalhados conceitos importantes da rotina de administração de bancos de dados:
-importância do backup;
-diferença entre gerar um backup e testar uma restauração;
-validação dos dados após recuperação;
-monitoramento de sessões;
-organização de documentação técnica;
-utilização do Linux para administração;
-importância de registrar evidências de uma atividade.
----
-👨‍💻 Autor
+
+Autor
+
 Matheus Barcelli
-Projeto desenvolvido para estudo, prática técnica e composição de portfólio profissional nas áreas de:
-Infraestrutura | Linux | Banco de Dados | PostgreSQL | DBA | DevOps
----
+
+Projeto, documentação e laboratório desenvolvidos como parte de portfólio profissional nas áreas de tecnologia, infraestrutura e banco de dados.
+
+Copyright © 2026 Matheus Barcelli.
